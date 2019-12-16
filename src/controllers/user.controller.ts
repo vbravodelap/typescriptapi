@@ -2,11 +2,20 @@ import { Request, Response } from 'express';
 import User, { IUser } from '../models/User';
 import jwt from 'jsonwebtoken';
 
-export const signup = async (req: Request, res: Response) => {
+export const store = async (req: Request, res: Response) => {
     const user: IUser = new User({
-        username: req.body.username,
+        name: req.body.name,
+        nickname: req.body.nickname,
+        region: req.body.region,
+        state: req.body.state,
+        branch: req.body.branch,
+        vacations: req.body.vacations,
+        department: req.body.department,
+        role: req.body.role,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        accountant: req.body.accountant,
+        coordinator: req.body.coordinator
     });
 
     user.password = await user.encryptPassword(user.password);
@@ -40,3 +49,17 @@ export const profile = async (req: Request, res: Response) => {
     
     res.json(user);
 };
+
+export const getUsers = async (req: Request, res: Response) => {
+    const users = await User.find().populate(['accountant', 'coordinator']).exec();
+    if(!users) return res.status(404).json('Users not found');
+
+    res.json(users);
+}
+
+export const getUser = async (req: Request, res: Response) => {
+    const user = await User.findById(req.params.userId).populate(['accountant', 'coordinator']).exec();
+    if(!user) return res.status(404).json('User not found');
+
+    res.json(user);
+}

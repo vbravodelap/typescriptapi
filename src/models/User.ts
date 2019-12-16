@@ -1,8 +1,20 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 export interface IUser extends Document {
-    username: string;
+    name: string;
+    nickname: string;
+    entryDate: string;
+    region: string;
+    state: string;
+    branch: string;
+    vacations: number;
+    department: string;
+    accountant: string;
+    coordinator: string;
+    role: string;
+    checked: number;
+    requested: number;
     email: string;
     password: string;
     encryptPassword(password: string): Promise<string>;
@@ -10,23 +22,49 @@ export interface IUser extends Document {
 }
 
 const userSchema = new Schema({
-    username: {
+    name: {
         type: String,
         required: true,
-        min: 4,
+    },
+    nickname: {
+        type: String,
+        required: true,
         lowercase: true
     },
     email: {
         type: String,
-        unique: true,
         required: true,
-        lowercase: true
     },
+    entryDate: {
+        type: Date
+    },
+    region: String,
+    state: String,
+    branch: String,
+    vacations: Number,
+    department: String,
+    accountant: {
+        type: Types.ObjectId,
+        ref: 'User'
+    },
+    coordinator: {
+        type: Types.ObjectId,
+        ref: 'User'
+    },
+    role: {
+        type: String,
+        required: true,
+        default: 'USER'
+    },
+    requested: Number,
+    checked: Number,
     password: {
         type: String,
         required: true
     }
-})
+}, {
+    timestamps: true
+});
 
 userSchema.methods.encryptPassword = async (password: string): Promise<string> => {
     const salt = await bcrypt.genSalt(10);
