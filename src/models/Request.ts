@@ -7,6 +7,8 @@ export interface IRequest extends Document {
     status: string;
     checked: boolean;
     user: string;
+    checkups: string;
+    pendingAmount: number;
 }
 
 const requestSchema = new Schema({
@@ -16,6 +18,8 @@ const requestSchema = new Schema({
     status: { type: String, default: 'Pendiente' },
     checked: Boolean,
     user: { type: Types.ObjectId, ref: 'User' },
+    checkups: [{ type: Types.ObjectId, ref: 'Checkup' }],
+    pendingAmount: { type: Number, default: 0 }
 },{
     timestamps: true
 });

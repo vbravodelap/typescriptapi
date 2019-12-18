@@ -14,8 +14,8 @@ export const store = async (req: Request, res: Response) => {
         role: req.body.role,
         email: req.body.email,
         password: req.body.password,
-        accountant: req.body.accountant,
-        coordinator: req.body.coordinator
+        requested: 0,
+        checked: 0
     });
 
     user.password = await user.encryptPassword(user.password);
