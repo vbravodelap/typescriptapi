@@ -38,3 +38,26 @@ export const checkupIsCreate = (userId: string, checkupAmount: number, requestId
 
     
 }
+
+export const checkupIsDelete = (userId: string, requestId: string, amount: number): void => {
+    Request.findById(requestId, (err, request) => {
+        if(err) {
+            return new Error('Checkup not found');
+        }
+
+        // Pending edit
+        if(request){
+            if(request.checkups.length > 1 ){
+                request.status = 'SALDO PENDIENTE';
+                request.checked = false;
+                request.pendingAmount -= amount;
+            }else{
+                request.status = 'PENDIENTE';
+                request.checked = false;
+                request.pendingAmount -= amount;
+            }
+
+            
+        }
+    })
+}
