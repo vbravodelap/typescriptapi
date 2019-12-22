@@ -4,6 +4,7 @@ import { checkupIsCreate, checkupIsDelete } from '../helpers/checkup.helpers';
 
 export const store = async (req: Request, res: Response) => {
     // requestId changed of body to params
+    console.log(req.params.requestId);
     const checkup: ICheckup = new Checkup({
         concept: req.body.concept,
         amount: req.body.amount,
@@ -36,9 +37,11 @@ export const destroy = async (req: Request, res: Response) => {
     
     // Pending edit
     if(deletedCheckup) {
+        console.log(deletedCheckup)
         const amount: number = parseFloat(deletedCheckup.amount);
-        checkupIsDelete(req.userId, deletedCheckup.request, amount);
+        checkupIsDelete(req.userId, deletedCheckup.request, amount, deletedCheckup._id);
     }
 
+    res.json(deletedCheckup);
     
 }
