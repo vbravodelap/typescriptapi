@@ -7,7 +7,7 @@ export interface IRequest extends Document {
     status: string;
     checked: boolean;
     user: string;
-    checkups: string;
+    checkups: [string];
     pendingAmount: number;
 }
 

@@ -7,7 +7,7 @@ export const store = async (req: Request, res: Response) => {
     const checkup: ICheckup = new Checkup({
         concept: req.body.concept,
         amount: req.body.amount,
-        request: req.body.request,
+        request: req.params.requestId,
         user: req.userId,
     });
 
@@ -16,7 +16,7 @@ export const store = async (req: Request, res: Response) => {
     const amount: number = parseFloat(req.body.amount);
     const checkupId: string = savedCheckup._id;
     
-    checkupIsCreate(req.userId, amount, req.body.request, checkupId);
+    checkupIsCreate(req.userId, amount, req.params.requestId, checkupId);
 
     if(!savedCheckup) return res.status(400).json('Error saving checkup');
 
