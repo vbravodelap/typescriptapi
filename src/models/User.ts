@@ -29,7 +29,8 @@ const userSchema = new Schema({
     nickname: {
         type: String,
         required: true,
-        lowercase: true
+        lowercase: true,
+
     },
     email: {
         type: String,
